@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tres Pasos · Cocina de Hogar</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --lino: #F2F4ED;
+    --hueso: #FAFAF7;
+    --verde: #5C6B2E;
+    --verde-claro: #7A8F42;
+    --verde-oscuro: #3B4A1A;
+    --verde-acento: #B8CC6E;
+    --texto: #1E2810;
+    --texto-suave: #4A5820;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Lato', sans-serif;
+    background: var(--hueso);
+    color: var(--texto);
+    font-size: 16px;
+    line-height: 1.6;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 5vw;
+    background: rgba(59,74,26,0.97);
+    backdrop-filter: blur(6px);
+    border-bottom: 1px solid rgba(184,204,110,0.15);
+  }
+
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    color: #fff;
+    letter-spacing: 0.02em;
+    line-height: 1.2;
+  }
+
+  .nav-logo span {
+    display: block;
+    font-family: 'Lato', sans-serif;
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--verde-acento);
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 28px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.7);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--verde-acento); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    place-items: center;
+    text-align: center;
+    padding: 120px 5vw 80px;
+    background: var(--verde-oscuro);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: repeating-linear-gradient(
+      0deg, transparent, transparent 28px,
+      rgba(255,255,255,0.025) 28px, rgba(255,255,255,0.025) 29px
+    );
+    pointer-events: none;
+  }
+
+  .hero-eyebrow {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--verde-acento);
+    margin-bottom: 20px;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.2s forwards;
+  }
+
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3rem, 9vw, 6.5rem);
+    line-height: 1.05;
+    color: #fff;
+    margin-bottom: 12px;
+    opacity: 0;
+    animation: fadeUp 0.9s 0.4s forwards;
+  }
+
+  .hero-title em { font-style: italic; color: var(--verde-acento); }
+
+  .hero-sub {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: clamp(1.1rem, 3vw, 1.5rem);
+    color: rgba(255,255,255,0.7);
+    margin-bottom: 40px;
+    opacity: 0;
+    animation: fadeUp 0.9s 0.6s forwards;
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(184,204,110,0.35);
+    color: #fff;
+    padding: 10px 22px;
+    border-radius: 50px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    opacity: 0;
+    animation: fadeUp 0.9s 0.8s forwards;
+  }
+
+  .stars { color: #E8C84A; letter-spacing: 2px; }
+
+  .hero-scroll {
+    position: absolute;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    opacity: 0;
+    animation: fadeUp 1s 1.2s forwards;
+  }
+
+  .hero-scroll span {
+    font-size: 0.65rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+  }
+
+  .scroll-line {
+    width: 1px;
+    height: 40px;
+    background: linear-gradient(to bottom, var(--verde-acento), transparent);
+    animation: scrollPulse 1.8s ease-in-out infinite;
+  }
+
+  /* SECTIONS */
+  section { padding: 90px 5vw; }
+
+  .section-label {
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--verde);
+    margin-bottom: 12px;
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 5vw, 3rem);
+    color: var(--texto);
+    line-height: 1.15;
+    margin-bottom: 16px;
+  }
+
+  .section-intro {
+    font-size: 1rem;
+    color: var(--texto-suave);
+    max-width: 520px;
+    margin-bottom: 56px;
+  }
+
+  /* DIVIDER */
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 0 5vw;
+  }
+
+  .divider-line {
+    flex: 1;
+    height: 1px;
+    background: rgba(59,74,26,0.12);
+  }
+
+  .divider-mark {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 1.4rem;
+    color: var(--verde-claro);
+    opacity: 0.6;
+  }
+
+  /* SERVICIOS */
+  #servicios { background: var(--lino); }
+
+  .porque-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 32px;
+  }
+
+  .porque-item {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  .porque-item.visible {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  .porque-icon {
+    width: 52px;
+    height: 52px;
+    background: var(--verde-oscuro);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    margin-bottom: 20px;
+  }
+
+  .porque-item h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    color: var(--texto);
+    margin-bottom: 8px;
+  }
+
+  .porque-item p {
+    font-size: 0.88rem;
+    color: var(--texto-suave);
+    line-height: 1.7;
+  }
+
+  /* MENU */
+  #menu { background: var(--hueso); }
+
+  .menu-cats {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 32px;
+  }
+
+  .menu-cat h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    color: var(--texto);
+    border-bottom: 2px solid var(--verde-claro);
+    padding-bottom: 8px;
+    margin-bottom: 16px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .menu-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 8px;
+    padding: 7px 0;
+    border-bottom: 1px dotted rgba(59,74,26,0.15);
+  }
+
+  .menu-item:last-child { border-bottom: none; }
+
+  .menu-item-name {
+    font-size: 0.87rem;
+    color: var(--texto-suave);
+    line-height: 1.4;
+    flex: 1;
+  }
+
+  .menu-item-name small {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--texto-suave);
+    opacity: 0.7;
+    margin-top: 2px;
+  }
+
+  .menu-item-price {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--verde);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  /* RESEÑAS */
+  #resenas { background: var(--verde-oscuro); }
+
+  #resenas .section-label { color: var(--verde-acento); }
+  #resenas .section-title { color: #fff; }
+  #resenas .section-intro { color: rgba(255,255,255,0.6); }
+
+  .reviews-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 24px;
+  }
+
+  .review-card {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(184,204,110,0.15);
+    border-radius: 4px;
+    padding: 28px;
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  .review-card.visible {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  .review-stars { color: #E8C84A; font-size: 0.85rem; margin-bottom: 14px; }
+
+  .review-text {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 1rem;
+    line-height: 1.65;
+    color: #fff;
+    margin-bottom: 20px;
+  }
+
+  .review-author {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--verde-acento);
+  }
+
+  /* POR QUÉ */
+  #porque { background: var(--lino); }
+
+  /* CONTACTO */
+  #contacto { background: var(--hueso); }
+
+  .contacto-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    align-items: start;
+  }
+
+  .contacto-info h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    color: var(--texto);
+    margin-bottom: 24px;
+  }
+
+  .info-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 18px;
+    font-size: 0.9rem;
+    color: var(--texto-suave);
+  }
+
+  .info-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 1px; }
+
+  .btn-group { display: flex; flex-direction: column; gap: 0; }
+
+  .btn-wa {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--verde-oscuro);
+    color: #fff;
+    padding: 14px 28px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 0.88rem;
+    letter-spacing: 0.06em;
+    margin-top: 28px;
+    transition: background 0.2s, transform 0.2s;
+  }
+
+  .btn-wa:hover { background: var(--verde); transform: translateY(-2px); }
+
+  .btn-ig {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: transparent;
+    color: var(--verde);
+    border: 1.5px solid var(--verde);
+    padding: 13px 26px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 0.88rem;
+    letter-spacing: 0.06em;
+    margin-top: 12px;
+    transition: background 0.2s, color 0.2s;
+  }
+
+  .btn-ig:hover { background: var(--verde); color: #fff; }
+
+  .map-container {
+    border-radius: 4px;
+    overflow: hidden;
+    border: 1px solid rgba(59,74,26,0.15);
+    height: 320px;
+  }
+
+  .map-container iframe { width: 100%; height: 100%; border: 0; }
+
+  /* FOOTER */
+  footer {
+    background: #1E2810;
+    color: rgba(255,255,255,0.45);
+    padding: 40px 5vw;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .footer-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    color: #fff;
+  }
+
+  .footer-logo span {
+    display: block;
+    font-family: 'Lato', sans-serif;
+    font-size: 0.6rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--verde-acento);
+    margin-top: 2px;
+  }
+
+  footer p { font-size: 0.78rem; }
+
+  /* WHATSAPP FLOAT */
+  .wa-float {
+    position: fixed;
+    bottom: 28px; right: 28px;
+    z-index: 200;
+    width: 56px; height: 56px;
+    background: #25D366;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    text-decoration: none;
+    font-size: 1.6rem;
+    transition: transform 0.2s;
+  }
+
+  .wa-float:hover { transform: scale(1.1); }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes scrollPulse {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 1; }
+  }
+
+  @media (max-width: 768px) {
+    .nav-links { display: none; }
+    .contacto-inner { grid-template-columns: 1fr; gap: 40px; }
+    .map-container { height: 240px; }
+    footer { flex-direction: column; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">
+    Tres Pasos
+    <span>Cocina de Hogar</span>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#servicios">Servicios</a></li>
+    <li><a href="#menu">Carta</a></li>
+    <li><a href="#resenas">Reseñas</a></li>
+    <li><a href="#contacto">Contacto</a></li>
+  </ul>
+</nav>
+
+<section class="hero">
+  <div>
+    <p class="hero-eyebrow">Benavidez · Buenos Aires</p>
+    <h1 class="hero-title">Cocina hecha<br>con <em>amor</em></h1>
+    <p class="hero-sub">Comedor, viandas, eventos y boxes gourmet</p>
+    <div class="hero-badge">
+      <span class="stars">★★★★★</span>
+      5,0 · 32 reseñas en Google
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <span>Ver más</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<div class="divider"><div class="divider-line"></div><div class="divider-mark">✦</div><div class="divider-line"></div></div>
+
+<section id="servicios">
+  <p class="section-label">Lo que ofrecemos</p>
+  <h2 class="section-title">Nuestros servicios</h2>
+  <p class="section-intro">Más que un restaurante. Llevamos la cocina de Tres Pasos a donde lo necesités.</p>
+  <div class="porque-grid">
+    <div class="porque-item">
+      <div class="porque-icon">🍽️</div>
+      <h3>Comedor in situ</h3>
+      <p>Almorzá en un ambiente cálido y acogedor dentro del parque industrial. Menú del día con ingredientes frescos, atención personalizada y el sabor de siempre.</p>
+    </div>
+    <div class="porque-item">
+      <div class="porque-icon">🥡</div>
+      <h3>Servicio de viandas</h3>
+      <p>Viandas individuales o por cantidad para empresas y particulares. Comida casera de calidad, lista para consumir. Consultanos por menú semanal y precios por volumen.</p>
+    </div>
+    <div class="porque-item">
+      <div class="porque-icon">🎉</div>
+      <h3>Eventos sociales</h3>
+      <p>Organizamos el catering para tu evento: cumpleaños, reuniones de empresa, festejos y más. Menú personalizado, presentación cuidada y atención de principio a fin.</p>
+    </div>
+    <div class="porque-item">
+      <div class="porque-icon">🎁</div>
+      <h3>Box gourmet</h3>
+      <p>Boxes curados con lo mejor de nuestra pastelería y cocina. Ideales para regalar, para una reunión especial o para darte un gusto. Pedido con anticipación.</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"><div class="divider-line"></div><div class="divider-mark">✦</div><div class="divider-line"></div></div>
+
+<section id="menu">
+  <p class="section-label">Lo que cocinamos</p>
+  <h2 class="section-title">Nuestra carta</h2>
+  <p class="section-intro">Platos preparados con ingredientes frescos y de calidad, como en casa pero mejor.</p>
+  <div class="menu-cats">
+
+    <div class="menu-cat">
+      <h3>Cafetería</h3>
+      <div class="menu-item"><span class="menu-item-name">Café o té</span><span class="menu-item-price">$3.500</span></div>
+      <div class="menu-item"><span class="menu-item-name">Café en jarrito</span><span class="menu-item-price">$3.800</span></div>
+      <div class="menu-item"><span class="menu-item-name">Café doble o café con leche</span><span class="menu-item-price">$4.200</span></div>
+      <div class="menu-item"><span class="menu-item-name">Capuccino con crema y canela</span><span class="menu-item-price">$4.800</span></div>
+      <div class="menu-item"><span class="menu-item-name">Ice Coffee</span><span class="menu-item-price">$4.500</span></div>
+      <div class="menu-item"><span class="menu-item-name">Ice Tea <small>con frutos rojos, menta y limón</small></span><span class="menu-item-price">$4.500</span></div>
+    </div>
+
+    <div class="menu-cat">
+      <h3>Sandwichs de Focaccia <small style="font-size:0.7rem;font-weight:400;letter-spacing:0">(con papas rústicas)</small></h3>
+      <div class="menu-item"><span class="menu-item-name">Jamón crudo, queso tybo, tomates cherries confitados, rúcula y pesto</span><span class="menu-item-price">$13.500</span></div>
+      <div class="menu-item"><span class="menu-item-name">Mortadella con pistachos, queso tybo pesto y rúcula</span><span class="menu-item-price">$13.500</span></div>
+    </div>
+
+    <div class="menu-cat">
+      <h3>Wraps <small style="font-size:0.7rem;font-weight:400;letter-spacing:0">(con papas rústicas)</small></h3>
+      <div class="menu-item"><span class="menu-item-name">Wrap de pollo napolitano</span><span class="menu-item-price">$10.000</span></div>
+      <div class="menu-item"><span class="menu-item-name">Wrap de carne cuatro quesos</span><span class="menu-item-price">$10.000</span></div>
+      <div class="menu-item"><span class="menu-item-name">Wrap vegano <small>con vegetales asados, hummus y rúcula fresca</small></span><span class="menu-item-price">$10.000</span></div>
+    </div>
+
+    <div class="menu-cat">
+      <h3>Tartas individuales</h3>
+      <div class="menu-item"><span class="menu-item-name">Espinaca, mozzarella, cebolla caramelizada y parmesano</span><span class="menu-item-price">$11.000</span></div>
+      <div class="menu-item"><span class="menu-item-name">Zapallitos, mozzarella y cebolla caramelizada</span><span class="menu-item-price">$11.000</span></div>
+      <div class="menu-item"><span class="menu-item-name">Brócoli, cebolla caramelizada, mozzarella y parmesano</span><span class="menu-item-price">$11.000</span></div>
+    </div>
+
+    <div class="menu-cat">
+      <h3>Ensaladas</h3>
+      <div class="menu-item"><span class="menu-item-name">Caesar <small>mix de verdes, pollo grillado, parmesano, croutons y aderezo caesar</small></span><span class="menu-item-price">$15.000</span></div>
+      <div class="menu-item"><span class="menu-item-name">Italiana <small>mix de verdes, cherries confitados, olivas negras, parmesano, cebolla caramelizada, jamón crudo y pesto</small></span><span class="menu-item-price">$15.000</span></div>
+      <div class="menu-item"><span class="menu-item-name">Primavera <small>mix de verdes, cherry, remolacha, zanahoria rallada, choclo, huevo, jamón cocido y queso</small></span><span class="menu-item-price">$15.000</span></div>
+    </div>
+
+    <div class="menu-cat">
+      <h3>Bebidas</h3>
+      <div class="menu-item"><span class="menu-item-name">Agua mineral Villa Vicencio</span><span class="menu-item-price">$2.700</span></div>
+      <div class="menu-item"><span class="menu-item-name">Gaseosas línea Coca Cola</span><span class="menu-item-price">$3.200</span></div>
+      <div class="menu-item"><span class="menu-item-name">Jugos naturales <small>limonada / jugo de naranja</small></span><span class="menu-item-price">$3.700</span></div>
+      <div class="menu-item"><span class="menu-item-name">Licuados <small>naranja/frutilla, banana con leche, banana/frutilla con leche</small></span><span class="menu-item-price">$4.000</span></div>
+      <div class="menu-item"><span class="menu-item-name">Cerveza Stella Artois lata</span><span class="menu-item-price">$5.000</span></div>
+      <div class="menu-item"><span class="menu-item-name">Vino <small>consultar opciones de nuestra cava</small></span><span class="menu-item-price">—</span></div>
+    </div>
+
+    <div class="menu-cat">
+      <h3>Pastelería y salado</h3>
+      <div class="menu-item"><span class="menu-item-name">Cookies de avena <small>con chocolate y nuez</small></span><span class="menu-item-price">$2.500</span></div>
+      <div class="menu-item"><span class="menu-item-name">Cookie gde.</span><span class="menu-item-price">$5.000</span></div>
+      <div class="menu-item"><span class="menu-item-name">Cookie de almendras y naranja</span><span class="menu-item-price">$2.500</span></div>
+      <div class="menu-item"><span class="menu-item-name">Muffing <small>limón y arándanos o carrot cake con nueces</small></span><span class="menu-item-price">$4.500</span></div>
+      <div class="menu-item"><span class="menu-item-name">Pastafrola</span><span class="menu-item-price">$3.800</span></div>
+      <div class="menu-item"><span class="menu-item-name">Tostadas de pan de campo <small>con queso crema y mermelada artesanal</small></span><span class="menu-item-price">$3.800</span></div>
+      <div class="menu-item"><span class="menu-item-name">Yogurt natural con granola y frutos rojos</span><span class="menu-item-price">$7.500</span></div>
+      <div class="menu-item"><span class="menu-item-name">Brownie con nutella y frutos secos</span><span class="menu-item-price">$8.500</span></div>
+      <div class="menu-item"><span class="menu-item-name">Medialunas rellenas <small>con jamón y queso</small></span><span class="menu-item-price">$6.600</span></div>
+      <div class="menu-item"><span class="menu-item-name">Huevos revueltos <small>con rodaja de pan de masa madre tostada</small></span><span class="menu-item-price">$8.500</span></div>
+      <div class="menu-item"><span class="menu-item-name">Hummus con cherries confitados y focaccia crocante</span><span class="menu-item-price">$7.600</span></div>
+      <div class="menu-item"><span class="menu-item-name">Tostado de jamón cocido natural <small>y queso tybo en pan árabe</small></span><span class="menu-item-price">$10.000</span></div>
+      <div class="menu-item"><span class="menu-item-name">Croissant rellena con jamón crudo <small>queso tybo, cherries confitados, rúcula y pesto</small></span><span class="menu-item-price">$14.000</span></div>
+      <div class="menu-item"><span class="menu-item-name">Croissant rellena con pollo Caesar</span><span class="menu-item-price">$14.000</span></div>
+    </div>
+
+    <div class="menu-cat">
+      <h3>Cocina</h3>
+      <div class="menu-item"><span class="menu-item-name">Pasta corta artesanal salteada con oliva <small>brócolis, portobellos, cebollas caramelizadas y parmesano gratén</small></span><span class="menu-item-price">$21.000</span></div>
+      <div class="menu-item"><span class="menu-item-name">Raviolones de espinaca, ricota y nueces <small>con crema de portobellos gratén</small></span><span class="menu-item-price">$23.500</span></div>
+      <div class="menu-item"><span class="menu-item-name">Milanesa al horno con ensalada y papas crocantes</span><span class="menu-item-price">$27.500</span></div>
+      <div class="menu-item"><span class="menu-item-name">Suprema al horno con ensalada y papas crocantes</span><span class="menu-item-price">$26.000</span></div>
+      <div class="menu-item"><span class="menu-item-name">Milanesa de ternera napolitana con papas crocantes</span><span class="menu-item-price">$29.500</span></div>
+      <div class="menu-item"><span class="menu-item-name">Suprema napolitana con papas crocantes</span><span class="menu-item-price">$28.000</span></div>
+    </div>
+
+    <div class="menu-cat">
+      <h3>Postres</h3>
+      <div class="menu-item"><span class="menu-item-name">Flan casero tradicional con dulce de leche y crema</span><span class="menu-item-price">$6.000</span></div>
+      <div class="menu-item"><span class="menu-item-name">Tiramisú</span><span class="menu-item-price">$7.000</span></div>
+      <div class="menu-item"><span class="menu-item-name">Selección de quesos <small>dulce de membrillo en lingote, miel de panal y frutos secos tostados</small></span><span class="menu-item-price">$7.000</span></div>
+      <div class="menu-item"><span class="menu-item-name">Pavlova con dulce de leche, crema y frutos rojos</span><span class="menu-item-price">$7.000</span></div>
+    </div>
+
+  </div>
+</section>
+
+<section id="resenas">
+  <p class="section-label">Lo que dicen</p>
+  <h2 class="section-title">Reseñas de clientes</h2>
+  <p class="section-intro">5 estrellas en Google. No lo decimos nosotros.</p>
+  <div class="reviews-grid">
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">La ensalada súper fresca y abundante, con ingredientes de muy buena calidad. Riquísima y súper recomendable.</p>
+      <p class="review-author">Javier Novelli</p>
+    </div>
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">Riquísimo todo, pero estos scones de queso son un espectáculo. La atención de 10, súper recomendable.</p>
+      <p class="review-author">Daira Turco</p>
+    </div>
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">Gran lugar dentro del parque industrial para disfrutar de un ambiente cálido y comida de calidad.</p>
+      <p class="review-author">Manuel Regidor García · Local Guide</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"><div class="divider-line"></div><div class="divider-mark">✦</div><div class="divider-line"></div></div>
+
+<section id="porque" style="background: var(--lino);">
+  <p class="section-label">Por qué elegirnos</p>
+  <h2 class="section-title">Lo que nos hace diferentes</h2>
+  <p class="section-intro">No somos un restaurante más. Somos el lugar donde se come bien de verdad.</p>
+  <div class="porque-grid">
+    <div class="porque-item">
+      <div class="porque-icon">🌿</div>
+      <h3>Ingredientes de calidad</h3>
+      <p>Seleccionamos cada producto con cuidado. Nada de atajos ni de ingredientes de segunda.</p>
+    </div>
+    <div class="porque-item">
+      <div class="porque-icon">🤝</div>
+      <h3>Atención cálida</h3>
+      <p>Te atendemos como si estuvieras en casa. Rápido, amable y con ganas de que te vaya bien.</p>
+    </div>
+    <div class="porque-item">
+      <div class="porque-icon">☕</div>
+      <h3>Ambiente acogedor</h3>
+      <p>Un rincón de calma dentro del parque industrial. Ideal para un buen almuerzo o una merienda.</p>
+    </div>
+  </div>
+</section>
+
+<section id="contacto">
+  <p class="section-label">Dónde encontrarnos</p>
+  <h2 class="section-title">Vení a visitarnos</h2>
+  <div class="contacto-inner">
+    <div class="contacto-info">
+      <h3>Información</h3>
+      <div class="info-row"><span class="info-icon">📍</span><span>Av. Gral. Juan Domingo Perón 4749, Benavidez, Provincia de Buenos Aires</span></div>
+      <div class="info-row"><span class="info-icon">🕐</span><span>Horario de atención · Cierra a las 5:00 p.m.</span></div>
+      <div class="info-row"><span class="info-icon">📞</span><span>011 6510-3056</span></div>
+      <div class="btn-group">
+        <a href="https://wa.me/5491165103056" class="btn-wa" target="_blank">💬 Escribinos por WhatsApp</a>
+        <a href="https://instagram.com/trespasos.ok" class="btn-ig" target="_blank">📷 Seguinos en Instagram</a>
+      </div>
+    </div>
+    <div class="map-container">
+      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3290.5!2d-58.6900!3d-34.3900!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2sAv.+Gral.+Juan+Domingo+Per%C3%B3n+4749%2C+Benavidez!5e0!3m2!1ses!2sar!4v1" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo">
+    Tres Pasos
+    <span>Cocina de Hogar · Benavidez</span>
+  </div>
+  <p>📞 011 6510-3056</p>
+  <p>© 2025 Tres Pasos. Con cariño desde Benavidez.</p>
+</footer>
+
+<a href="https://wa.me/5491165103056" class="wa-float" target="_blank" aria-label="WhatsApp">💬</a>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 100);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.review-card, .porque-item').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
